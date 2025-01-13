@@ -1,6 +1,7 @@
 import React from 'react';
 import ProductList from './ProductList';  // Asegúrate de importar el componente
 
+
 const App = () => {
   return (
     <div>
