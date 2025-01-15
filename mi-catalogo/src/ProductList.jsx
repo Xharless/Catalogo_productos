@@ -12,6 +12,8 @@ const ProductList = () => {
         try {
             const response = await fetch(`https://678557161ec630ca33a83de2.mockapi.io/product?page=${page}&limit=${limit}`);
             const data = await response.json();
+            
+            console.log(data);
 
             //si no hay, dejar de cargar
             if (data.length == 0) {
@@ -20,16 +22,13 @@ const ProductList = () => {
 
 
             // Filtrar productos duplicados basados en el id
-            setProducts((prevProducts) => {
-                const newProducts = data;
-                const productIds = new Set(prevProducts.map((product) => product.id));
-                const uniqueProducts = newProducts.filter((product) => !productIds.has(product.id));
-                return [...prevProducts, ...uniqueProducts];
-            });
+            setProducts((prevProducts) => [...prevProducts, ...data])
 
             // Si no hay más productos, detener la carga infinita
             if (data.length < limit) {
                 setHasMore(false);
+            } else {
+                setPage((prev) => prev + 1);
             }
             
         } catch (error) {
@@ -48,29 +47,36 @@ const ProductList = () => {
 
     return (
         <div>
-            <InfiniteScroll
-                dataLength={products.length}
-                next={fetchProducts}
-                hasMore={hasMore}
-                loader={<h4>Loading...</h4>}
-            >
-                <div className="product-list">
-                    {products.map((product) => (
-                        <div key={product.id ? product.id: `${index}`}  className="product-card"> {/* Usamos product.id como key */}
-                            <img 
-                                src={product.Image} 
-                                alt={product.title} 
-                                onError={handleImageError} 
-                            />
-                            <div className="content">
-                                <h3 className="title">{product.title}</h3>
-                                <p className="descripcion">{product.descripcion}</p>
-                                <p className="price">Price: ${product.price}</p>
+            <div className="Top-bar">
+                <h1>Product List</h1>
+            </div>
+            <div id="scrollableDiv" className="scroll-container">
+                <InfiniteScroll
+                    dataLength={products.length}
+                    next={fetchProducts}
+                    hasMore={hasMore}
+                    loader={<h4>Loading...</h4>}
+                    scrollableTarget="scrollableDiv"
+                >
+                    <div className="product-list">
+                        
+                        {products.map((product) => (
+                            <div key={product.id ? product.id: `${index}`}  className="product-card"> {/* Usamos product.id como key */}
+                                <img 
+                                    src={product.Image} 
+                                    alt={product.title} 
+                                    onError={handleImageError} 
+                                    />
+                                <div className="content">
+                                    <h3 className="title">{product.title}</h3>
+                                    <p className="descripcion">{product.descripcion}</p>
+                                    <p className="price">Price: ${product.price}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            </InfiniteScroll>
+                        ))}
+                    </div>
+                </InfiniteScroll>
+            </div>
         </div>
     );
 };

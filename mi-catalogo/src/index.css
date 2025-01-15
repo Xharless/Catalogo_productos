@@ -10,7 +10,26 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f9;
   color: #333;
-  padding: 20px;
+  padding: 20px;  
+  overflow: hidden;
+}
+.Top-bar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #282c34;
+  color: white;
+  padding: 10px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  text-align: center;
+}
+
+.scroll-container {
+  margin-top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
 }
 
 /* Centro el contenido */
@@ -23,11 +42,11 @@ body {
 
 /* Ajustes de los productos */
 .product-list {
+  margin-top: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
   max-width: 1200px;
-  margin: auto;
 }
 
 /* Estilo para cada tarjeta de producto */
